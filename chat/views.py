@@ -26,7 +26,7 @@ def chat_room(request):
 
 
 def admin_room(request):
-    questions = Questions.objects.all()
+    questions = Question.objects.all()
     return render(request, "chat/admin.html", {
         'questions': questions,
     })
