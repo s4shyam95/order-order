@@ -20,7 +20,7 @@
           <div id="question_container{{question.id}}">
         {% endif %}
         <h5> Question : {{question.id}} </h5>
-        <input type="text" class="question_answer" id="q{{question.id}}_answer" len="{{question.choices}}">
+        <input type="text" class="question_answer" id="q{{question.id}}_answer" len="{{question.options}}">
         <form class="answer_question" question_id="{{question.id}}" len="{{question.choices}}" answer="{{question.correct_answer}}">
             <button id="btn{{question.id}}" type="submit">Answer</button>
         </form>   
