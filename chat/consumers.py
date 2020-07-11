@@ -36,11 +36,17 @@ def ws_receive(message):
             question = Question.objects.get(id=data['question'])
             if len(question.answers.filter(by=author)) > 0:
                 message.reply_channel.send({'type': 'alert', 'message': 'Already Answered Question'})
-            if question.hidden:
+            elif question.hidden:
                 message.reply_channel.send({'type': 'alert', 'message': 'Question Not Open Yet'})
-            answer = Answer(by=author, for_q=question, ans=data['answer'])
-            answer.save()
-            message.reply_channel.send({'type': 'answer_response'})
+            elif question.closed:
+                message.reply_channel.send({'type': 'alert', 'message': 'Question has been closed'})
+            elif sorted(data['answer']) != ''.join([str(x+1) for x in range(question.options)]):
+                message.reply_channel.send({'type': 'alert', 'message': 'Please enter valid answer'})
+
+            else:
+                answer = Answer(by=author, for_q=question, ans=data['answer'])
+                answer.save()
+                message.reply_channel.send({'type': 'answer_response'})
 
         if data['type'] == 'unlock_question':
             message.reply_channel.send({'type': 'unlock_question', 'question_id': data['question_id']})

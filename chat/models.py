@@ -23,6 +23,7 @@ class Question(models.Model):
     options = models.IntegerField(default=5)
     datetime = models.DateTimeField(default=timezone.now)
     hidden = models.BooleanField(default=True)
+    closed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('datetime',)
