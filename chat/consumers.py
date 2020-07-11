@@ -22,6 +22,7 @@ def ws_receive(message):
     # conform to the expected message format.
     try:
         data = json.loads(message['text'])
+        log.debug('received', data)
     except ValueError:
         log.debug("ws message isn't json text=%s", text)
         return
