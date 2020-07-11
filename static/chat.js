@@ -14,6 +14,10 @@ $(function() {
         }
         if (data.type == 'unlock_question'){
             $('#question_container'+data.question_id).attr('hidden', false);
+			$([document.documentElement, document.body]).animate({
+        		scrollTop: $('#q'+data.question_id+'_answer').offset().top
+    		}, 1000);
+            $('#q'+data.question_id+'_answer').pincodeInput().data('plugin_pincodeInput').focus();
         }
         if (data.type == 'show_answer'){
 			$('#player_answers_body').empty();
@@ -59,13 +63,18 @@ $(function() {
 
     $(".answer_question").on("submit", function(event) {
         if($('#handle').val()){
+	    if($(this).attr('answer').length == $(this).attr('len')){
             var message = {
                 handle: $('#handle').val(),
                 type: 'answer',
-                answer: $('#'+$(this).attr('question_id')+'_answer').val(),
+                answer: $(this).attr('answer'),
                 question: $(this).attr('question_id'),
             }
             chatsock.send(JSON.stringify(message));
+        }
+        else{
+            alert("Please enter valid answer");
+        }
         }
         else{
             alert("Please enter a handle without spaces.");
@@ -82,7 +91,10 @@ $(function() {
 	setInterval(heartbeat, 39999);
     $(document) .ready(function(){
         $('.question_answer').each(function(){
-           $(this).pincodeInput({inputs:$(this).attr('len'), hidedigits:false});
+		   var question_id = $(this).attr('question_id');
+           $(this).pincodeInput({inputs:$(this).attr('len'), hidedigits:false, complete: function(value, e, error){
+				$('#answer_question_'+question_id).attr('answer', value);
+			}});
         });
     });
 

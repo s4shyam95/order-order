@@ -7,7 +7,7 @@
   </div>
   <p id="namediv">
     <h5>Your name:</h5>
-    <input id="handle" type="text" placeholder="handle">
+    <input id="handle" type="text" placeholder="Name">
     <form id="joingame">
         <button type="submit" id="join">Join Game</button>
     </form>
@@ -20,8 +20,8 @@
           <div id="question_container{{question.id}}">
         {% endif %}
         <h5> Question : {{question.id}} </h5>
-        <input type="text" class="question_answer" id="q{{question.id}}_answer" len="{{question.options}}">
-        <form class="answer_question" question_id="{{question.id}}" len="{{question.choices}}" answer="{{question.correct_answer}}">
+        <input type="text" class="question_answer" id="q{{question.id}}_answer" len="{{question.options}}" question_id="{{question.id}}">
+        <form class="answer_question" question_id="{{question.id}}" len="{{question.choices}}" answer="" id="answer_question_{{question.id}}">
             <button id="btn{{question.id}}" type="submit">Answer</button>
         </form>   
         </div>
