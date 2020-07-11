@@ -36,14 +36,13 @@ def ws_receive(message):
         if data['type'] == 'answer':
             author = User.objects.get(name=data['handle'])
             question = Question.objects.get(id=data['question'])
-            print('xkcd', sorted(data['answer']) , ''.join([str(x+1) for x in range(question.options)]))
             if len(question.answers.filter(by=author)) > 0:
                 message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Already Answered Question'})})
             elif question.hidden:
                 message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Question Not Open Yet'})})
             elif question.closed:
                 message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Question has been closed'})})
-            elif sorted(data['answer']) != ''.join([str(x+1) for x in range(question.options)]):
+            elif ''.join(sorted(data['answer'])) != ''.join([str(x+1) for x in range(question.options)]):
                 message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Please enter a valid answer'})})
 
             else:
