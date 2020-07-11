@@ -33,11 +33,11 @@ class Answer(models.Model):
         given = str(self.ans)
         s = SequenceMatcher(None, correct, given)
         lcs = ''.join([correct[block.a:(block.a + block.size)] for block in s.get_matching_blocks()])
-            if len(lcs) <= self.for_q.options // 2:
-                return 0
-            score = 100
-            correct = self.for_q.options
-            while correct != len(lcs):
-                score //= 2
-                correct -= 1
+        if len(lcs) <= self.for_q.options // 2:
+            return 0
+        score = 100
+        correct = self.for_q.options
+        while correct != len(lcs):
+            score //= 2
+            correct -= 1
         return score
