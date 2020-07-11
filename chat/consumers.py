@@ -34,9 +34,9 @@ def ws_receive(message):
             message.reply_channel.send({'text': json.dumps({'ping': 'pong'})})
 
         if data['type'] == 'answer':
-            print('xkcd', sorted(data['answer']) , ''.join([str(x+1) for x in range(question.options)]))
             author = User.objects.get(name=data['handle'])
             question = Question.objects.get(id=data['question'])
+            print('xkcd', sorted(data['answer']) , ''.join([str(x+1) for x in range(question.options)]))
             if len(question.answers.filter(by=author)) > 0:
                 message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Already Answered Question'})})
             elif question.hidden:
