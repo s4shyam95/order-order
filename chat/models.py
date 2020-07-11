@@ -17,7 +17,7 @@ class User(models.Model):
 class Question(models.Model):
     correct_answer = models.TextField()
     options = models.IntegerField(default=5)
-    datetime = models.DateTimeField(default=datetime.now)
+    datetime = models.DateTimeField(default=timezone.now)
     hidden = models.BooleanField(default=True)
 
     class Meta:
