@@ -37,34 +37,34 @@ def ws_receive(message):
             author = User.objects.get(name=data['handle'])
             question = Question.objects.get(id=data['question'])
             if len(question.answers.filter(by=author)) > 0:
-                message.reply_channel.send({'type': 'alert', 'message': 'Already Answered Question'})
+                message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Already Answered Question'})})
             elif question.hidden:
-                message.reply_channel.send({'type': 'alert', 'message': 'Question Not Open Yet'})
+                message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Question Not Open Yet'})})
             elif question.closed:
-                message.reply_channel.send({'type': 'alert', 'message': 'Question has been closed'})
+                message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Question has been closed'})})
             elif sorted(data['answer']) != ''.join([str(x+1) for x in range(question.options)]):
-                message.reply_channel.send({'type': 'alert', 'message': 'Please enter valid answer'})
+                message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Please enter a valid answer'})})
 
             else:
                 answer = Answer(by=author, for_q=question, ans=data['answer'])
                 answer.save()
-                message.reply_channel.send({'type': 'answer_response'})
+                message.reply_channel.send({'text': json.dumps({'type': 'answer_response'})})
 
         if data['type'] == 'unlock_question':
-            message.reply_channel.send({'type': 'unlock_question', 'question_id': data['question_id']})
+            message.reply_channel.send({'text': json.dumps({'type': 'unlock_question', 'question_id': data['question_id']})})
 
         if data['type'] == 'show_answers':
             answers = None
             question = Question.objects.get(id=data['question_id'])
             answers = [{'player':answer.by.handle, 'answer':answer.ans, 'score':answer.score()} for answer in question.answers]
-            message.reply_channel.send({'type': 'show_answer', 'answers': json.dumps(answers), 'correct_answer': question.correct_answer})
+            message.reply_channel.send({'text': json.dumps({'type': 'show_answer', 'answers': json.dumps(answers), 'correct_answer': question.correct_answer})})
 
         if data['type'] == 'show_scores':
             scores_lis = [(player.total(), player.handle) for player in User.objects.all()]
             scores_lis.sort()
             scores_lis.reverse()
             scores = [{'score': score[0], 'player': score[1]} for score in scores_lis]
-            message.reply_channel.send({'type': 'show_score', 'scores': json.dumps(scores)})
+            message.reply_channel.send({'text': json.dumps({'type': 'show_score', 'scores': scores})})
 
         if data['type'] == 'beat':
             message.reply_channel.send({'text': json.dumps({'ping': 'pong'})})
