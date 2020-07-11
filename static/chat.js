@@ -80,8 +80,10 @@ $(function() {
 		chatsock.send(JSON.stringify(message));
 	}
 	setInterval(heartbeat, 39999);
-    $('.answer_question').each(function(){
-       $(this).pincodeInput({inputs:$(this).attr('len')});
+    $(document) .ready(function(){
+        $('.answer_question').each(function(){
+           $(this).pincodeInput({inputs:$(this).attr('len')});
+        });
     });
 
 
