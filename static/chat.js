@@ -81,7 +81,7 @@ $(function() {
 	}
 	setInterval(heartbeat, 39999);
     $(document) .ready(function(){
-        $('.answer_question').each(function(){
+        $('.question_answer').each(function(){
            $(this).pincodeInput({inputs:$(this).attr('len')});
         });
     });
