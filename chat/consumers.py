@@ -30,6 +30,7 @@ def ws_receive(message):
         if data['type'] == 'join':
             u = Users.objects.get_or_create(name=data.handle)
             message.reply_channel.send({'text': json.dumps({'ping': 'pong'})})
+
         if data['type'] == 'answer':
             author = User.objects.get(name=data.handle)
             question = Question.objects.get(id=data.question)
@@ -47,11 +48,11 @@ def ws_receive(message):
         if data['type'] == 'show_answers':
             answers = None
             question = Question.objects.get(id=data.question_id)
-            answers = [{'player':answer.by.handle, 'answer':answer.ans} for answer in question.answers]
+            answers = [{'player':answer.by.handle, 'answer':answer.ans, 'score':answer.score()} for answer in question.answers]
             message.reply_channel.send({'type': 'show_answer', 'answers': json.dumps(answers), 'correct_answer': question.correct_answer})
 
         if data['type'] == 'show_scores':
-            scores_lis = [player.score(), player.handle for player in User.objects.all()]
+            scores_lis = [player.total(), player.handle for player in User.objects.all()]
             scores_lis.sort()
             scores_lis.reverse()
             scores = [{'score': score[0], 'player': score[1]} for score in scores_lis]

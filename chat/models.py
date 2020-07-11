@@ -21,7 +21,7 @@ class Question(models.Model):
     hidden = models.BooleanField(default=True)
 
     class Meta:
-    	ordering = ('datetime')
+        ordering = ('datetime')
 
 class Answer(models.Model):
     by = models.ForeignKey(User, related_name='answers')
@@ -30,14 +30,14 @@ class Answer(models.Model):
 
     def score(self):
         correct = str(self.for_q.correct_answer)
-	given = str(self.ans)
-	s = SequenceMatcher(None, str_a, str_b)
-	lcs = ''.join([str_a[block.a:(block.a + block.size)] for block in s.get_matching_blocks()])
-        if len(lcs) <= self.for_q.options // 2:
-            return 0
-        score = 100
-        correct = self.for_q.options
-        while correct != len(lcs):
-            score //= 2
-            correct -= 1
+        given = str(self.ans)
+        s = SequenceMatcher(None, correct, given)
+        lcs = ''.join([correct[block.a:(block.a + block.size)] for block in s.get_matching_blocks()])
+            if len(lcs) <= self.for_q.options // 2:
+                return 0
+            score = 100
+            correct = self.for_q.options
+            while correct != len(lcs):
+                score //= 2
+                correct -= 1
         return score

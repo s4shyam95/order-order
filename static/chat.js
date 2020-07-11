@@ -19,6 +19,7 @@ $(function() {
 			$('#player_answers_body').empty();
 			// populate answers
             // Update Correct answer
+            $('#correct_answer').html('Correct Answer : '+data.correct_answer)
             for(var i = 0; i < data.answers.length; i++){
                 var player = data.answers[i].player;
                 var answer = data.answers[i].answer;
