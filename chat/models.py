@@ -14,6 +14,9 @@ class User(models.Model):
     def total(self):
         return sum([ans.score() for ans in self.answers])
 
+    class Meta:
+        ordering = ('datetime',)
+
 class Question(models.Model):
     correct_answer = models.TextField()
     options = models.IntegerField(default=5)
@@ -41,3 +44,6 @@ class Answer(models.Model):
             score //= 2
             correct -= 1
         return score
+
+    class Meta:
+        ordering = ('datetime',)
