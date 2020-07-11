@@ -52,7 +52,7 @@ def ws_receive(message):
             message.reply_channel.send({'type': 'show_answer', 'answers': json.dumps(answers), 'correct_answer': question.correct_answer})
 
         if data['type'] == 'show_scores':
-            scores_lis = [player.total(), player.handle for player in User.objects.all()]
+            scores_lis = [(player.total(), player.handle) for player in User.objects.all()]
             scores_lis.sort()
             scores_lis.reverse()
             scores = [{'score': score[0], 'player': score[1]} for score in scores_lis]
