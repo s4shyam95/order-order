@@ -82,7 +82,7 @@ $(function() {
 	setInterval(heartbeat, 39999);
     $(document) .ready(function(){
         $('.question_answer').each(function(){
-           $(this).pincodeInput({inputs:$(this).attr('len')});
+           $(this).pincodeInput({inputs:$(this).attr('len'), hidedigits:false});
         });
     });
 
