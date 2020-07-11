@@ -10,6 +10,7 @@ from difflib import SequenceMatcher
 
 class User(models.Model):
     name = models.CharField(max_length=19)
+    datetime = models.DateTimeField(default=timezone.now)
 
     def total(self):
         return sum([ans.score() for ans in self.answers])
@@ -30,6 +31,7 @@ class Answer(models.Model):
     by = models.ForeignKey(User, related_name='answers')
     for_q = models.ForeignKey(Question, related_name='answers')
     ans = models.CharField(max_length=10)
+    datetime = models.DateTimeField(default=timezone.now)
 
     def score(self):
         correct = str(self.for_q.correct_answer)
