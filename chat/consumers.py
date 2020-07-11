@@ -28,7 +28,7 @@ def ws_receive(message):
 
     if data:
         if data['type'] == 'join':
-            u = Users.objects.get_or_create(name=data.handle)
+            u = User.objects.get_or_create(name=data.handle)
             message.reply_channel.send({'text': json.dumps({'ping': 'pong'})})
 
         if data['type'] == 'answer':
