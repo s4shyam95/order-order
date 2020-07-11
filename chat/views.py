@@ -16,7 +16,7 @@ def chat_room(request):
 
     # We want to show the last 50 messages, ordered most-recent-last
 
-    questions = Questions.objects.all()
+    questions = Question.objects.all()
     players = User.objects.all()
 
     return render(request, "chat/room.html", {
