@@ -25,7 +25,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     by = models.ForeignKey(User, related_name='answers')
-    for_q = models.ForeignKey(Quesion, related_name='answers')
+    for_q = models.ForeignKey(Question, related_name='answers')
     ans = models.CharField(max_length=10)
 
     def score(self):
