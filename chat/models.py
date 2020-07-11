@@ -21,7 +21,7 @@ class Question(models.Model):
     hidden = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ('datetime')
+        ordering = ('datetime',)
 
 class Answer(models.Model):
     by = models.ForeignKey(User, related_name='answers')
