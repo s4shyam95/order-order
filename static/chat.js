@@ -13,7 +13,7 @@ $(function() {
             alert(data.message)
         }
         if (data.type == 'unlock_question'){
-            $('#question_container'+data.question_id).removeAttr('hidden');
+            $('#question_container'+data.question_id).show();
 			$([document.documentElement, document.body]).animate({
         		scrollTop: $('#q'+data.question_id+'_answer').offset().top
     		}, 1000);
