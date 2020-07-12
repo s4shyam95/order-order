@@ -48,23 +48,24 @@ def ws_receive(message):
             else:
                 answer = Answer(by=author, for_q=question, ans=data['answer'])
                 answer.save()
+                Group('admin', channel_layer=message.channel_layer).send({'text': json.dumps({'question':answer.question.id, 'by':answer.by.name, 'ans': answer.ans, 'score': answer.score()})})
                 message.reply_channel.send({'text': json.dumps({'type': 'answer_response'})})
 
         if data['type'] == 'unlock_question':
-            message.reply_channel.send({'text': json.dumps({'type': 'unlock_question', 'question_id': data['question_id']})})
+            Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'unlock_question', 'question_id': data['question_id']})})
 
         if data['type'] == 'show_answers':
             answers = None
             question = Question.objects.get(id=data['question_id'])
             answers = [{'player':answer.by.handle, 'answer':answer.ans, 'score':answer.score()} for answer in question.answers]
-            message.reply_channel.send({'text': json.dumps({'type': 'show_answer', 'answers': json.dumps(answers), 'correct_answer': question.correct_answer})})
+            Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'show_answer', 'answers': json.dumps(answers), 'correct_answer': question.correct_answer})})
 
         if data['type'] == 'show_scores':
             scores_lis = [(player.total(), player.handle) for player in User.objects.all()]
             scores_lis.sort()
             scores_lis.reverse()
             scores = [{'score': score[0], 'player': score[1]} for score in scores_lis]
-            message.reply_channel.send({'text': json.dumps({'type': 'show_score', 'scores': scores})})
+            Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'show_score', 'scores': scores})})
 
         if data['type'] == 'beat':
             message.reply_channel.send({'text': json.dumps({'ping': 'pong'})})

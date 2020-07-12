@@ -54,6 +54,7 @@ $(function() {
               type: 'join',
           }
           chatsock.send(JSON.stringify(message));
+          $('#join').attr('disabled', 'disabled');
       }
       else{
         alert("Please enter a valid name without spaces");

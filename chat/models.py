@@ -35,6 +35,8 @@ class Answer(models.Model):
     datetime = models.DateTimeField(default=timezone.now)
 
     def score(self):
+        if not self.for_q.closed:
+            return 0
         correct = str(self.for_q.correct_answer)
         given = str(self.ans)
         s = SequenceMatcher(None, correct, given)
@@ -46,6 +48,10 @@ class Answer(models.Model):
         while correct != len(lcs):
             score //= 2
             correct -= 1
+        answers = [(-1*answer.score(), answer.datetime, answer) for answer in self.for_q.answers]
+        if sorted(answers)[0][2] == self:
+            score += 25
+
         return score
 
     class Meta:

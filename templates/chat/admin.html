@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% load staticfiles %}
+  <div id="toppart">
+      <h1>Game 1 : Order Order!</h1>
+  </div>
+    <form class="score" question_id="{{question.id}}">
+        <button class="score_show" type="button">ShowScore</button>
+    </form>
+  <div id="questions">
+      {% for question in questions %}
+        <div id="question_container{{question.id}}">
+        <h3> Question : {{question.id}} </h3>
+        <form class="unhide" question_id="{{question.id}}">
+            <button class="unhide" type="button">Unhide Question</button>
+            <button class="lock" type="button">Lock Question</button>
+            <button class="show" type="button">Show Answer</button>
+        </form>   
+        <h5> Answers : </h5>
+        <p id="answers_list_{{question.id}}"> </p>
+        </div>
+      {% endfor %}
+  </div>
+
+
+ 
+  {% endblock content %}
+
+{% block afterbody %}
+  <script type="text/javascript" src='{% static "jquery-1.12.1.min.js" %}'></script>
+  <script type="text/javascript" src='{% static "bootstrap.min.js" %}'></script>
+  <script type="text/javascript" src='{% static "bootstrap-pincode-input.js" %}'></script>
+  <script type="text/javascript" src='{% static "reconnecting-websocket.min.js" %}'></script>
+  <script type="text/javascript" src='{% static "chat.js" %}'></script>
+{% endblock afterbody %}
