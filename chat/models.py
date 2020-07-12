@@ -48,6 +48,7 @@ class Answer(models.Model):
         while correct != len(lcs):
             score //= 2
             correct -= 1
+        return score
 
     def total_score(self):
         if not self.for_q.closed:
