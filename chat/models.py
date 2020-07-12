@@ -8,21 +8,6 @@ import math
 from difflib import SequenceMatcher
 
 
-class User(models.Model):
-    name = models.CharField(max_length=19)
-    datetime = models.DateTimeField(default=timezone.now)
-
-    def total(self):
-        trial = True
-        summer = 0
-        for ans in self.answers.all():
-            if not trial:
-                summer += ans.total_score()
-            trial = False
-        return summer
-
-    class Meta:
-        ordering = ('datetime',)
 
 class Question(models.Model):
     correct_answer = models.TextField()
@@ -30,6 +15,21 @@ class Question(models.Model):
     datetime = models.DateTimeField(default=timezone.now)
     hidden = models.BooleanField(default=True)
     closed = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ('datetime',)
+
+
+class User(models.Model):
+    name = models.CharField(max_length=19)
+    datetime = models.DateTimeField(default=timezone.now)
+
+    def total(self):
+        summer = 0
+        for ans in self.answers.all():
+            if not ans.for_q.id == Question.objects.first().id:
+                summer += ans.total_score()
+        return summer
 
     class Meta:
         ordering = ('datetime',)
