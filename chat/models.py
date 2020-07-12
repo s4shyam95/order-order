@@ -48,7 +48,12 @@ class Answer(models.Model):
         while correct != len(lcs):
             score //= 2
             correct -= 1
+
+    def total_score(self):
+        if not self.for_q.closed:
+            return 0
         answers = [(-1*answer.score(), answer.datetime, answer) for answer in self.for_q.answers.all()]
+        score = self.score()
         if sorted(answers)[0][2] == self:
             score += 25
 

@@ -27,7 +27,7 @@ $(function() {
             for(var i = 0; i < data.answers.length; i++){
                 var player = data.answers[i].player;
                 var answer = data.answers[i].answer;
-                $('#player_answers_body').append($('<tr><td>'+player+'</td><td>'+answer+'</td></tr>'));
+                $('#player_answers_body').append($('<tr><td>'+player+'</td><td>'+answer+'</td> <td>'+data.answers[i].score+'</td></tr>'));
             }
 			$('#AnswerModal').modal('show');
         }
