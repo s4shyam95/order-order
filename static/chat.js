@@ -13,11 +13,11 @@ $(function() {
             alert(data.message)
         }
         if (data.type == 'unlock_question'){
-            $('#question_container'+data.question_id).attr('hidden', false);
-			//$([document.documentElement, document.body]).animate({
-            //		scrollTop: $('#q'+data.question_id+'_answer').offset().top
-    		//}, 1000);
-            //$('#q'+data.question_id+'_answer').pincodeInput().data('plugin_pincodeInput').focus();
+            $('#question_container'+data.question_id).removeAttr('hidden');
+			$([document.documentElement, document.body]).animate({
+        		scrollTop: $('#q'+data.question_id+'_answer').offset().top
+    		}, 1000);
+            $('#q'+data.question_id+'_answer').pincodeInput().data('plugin_pincodeInput').focus();
         }
         if (data.type == 'show_answer'){
 			$('#player_answers_body').empty();
