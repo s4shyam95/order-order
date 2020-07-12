@@ -13,9 +13,8 @@ def ws_connect(message):
     # form /chat/{label}/, and finds a Room if the message path is applicable,
     # and if the Room exists. Otherwise, bails (meaning this is a some othersort
     # of websocket). So, this is effectively a version of _get_object_or_404.
-    prefix, label = message['path'].strip('/').split('/')
-    print(message['path'])
-    if label == 'conduct':
+    params = len(message['path'].strip('/').split('/'))
+    if params == 2:
         Group('admin', channel_layer=message.channel_layer).add(message.reply_channel)
     else:
         Group('game', channel_layer=message.channel_layer).add(message.reply_channel)
