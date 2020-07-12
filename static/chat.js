@@ -131,9 +131,12 @@ $(function() {
 				$('#answer_question_'+question_id).attr('answer', value);
 			}});
         });
-        $('.hidden_question').each(function(){
-            $(this).hide();
-        });
+        function hideq(){
+            $('.hidden_question').each(function(){
+                $(this).hide();
+            });
+        }
+        setTimeout(hideq, 300);
     });
 
 
