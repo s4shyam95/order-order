@@ -69,8 +69,8 @@ def ws_receive(message):
         if data['type'] == 'show_answers':
             answers = None
             question = Question.objects.get(id=data['question'])
-            if question.closed:
-                message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Answer not locked yet.'})})
+            if not question.closed:
+                message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Question not locked yet.'})})
             else:
                 answers = [{'player':answer.by.handle, 'answer':answer.ans, 'score':answer.score()} for answer in question.answers]
                 Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'show_answer', 'answers': json.dumps(answers), 'correct_answer': question.correct_answer})})
