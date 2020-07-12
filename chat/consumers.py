@@ -14,7 +14,7 @@ def ws_connect(message):
     # and if the Room exists. Otherwise, bails (meaning this is a some othersort
     # of websocket). So, this is effectively a version of _get_object_or_404.
     prefix, label = message['path'].strip('/').split('/')
-    logging.debug(label)
+    print(message['path'])
     if label == 'conduct':
         Group('admin', channel_layer=message.channel_layer).add(message.reply_channel)
     else:
