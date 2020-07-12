@@ -11,7 +11,7 @@
   <div id="questions">
       {% for question in questions %}
         <div id="question_container{{question.id}}">
-        <h3> Question : {{question.id}} </h3>
+        <h3> Question : {{forloop.counter0}} </h3>
         <form question_id="{{question.id}}">
             <button class="unhide" type="button">Unhide Question</button>
             <button class="lock" type="button">Lock Question</button>
