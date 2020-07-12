@@ -13,7 +13,13 @@ class User(models.Model):
     datetime = models.DateTimeField(default=timezone.now)
 
     def total(self):
-        return sum([ans.total_score() for ans in self.answers.all()[1:])
+        trial = True
+        summer = 0
+        for ans in self.answers.all():
+            if not trial:
+                summer += ans.total_score()
+            trial = False
+        return summer
 
     class Meta:
         ordering = ('datetime',)
