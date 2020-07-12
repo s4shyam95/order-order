@@ -47,7 +47,7 @@ $(function() {
 
         // Admin type
         if (data.type == 'answer_admin'){
-           $('#answer_list_'+data.question).append(data.by + '-' + data.ans + '<br>');
+           $('#answers_list_'+data.question).append(data.by + '-' + data.ans + '<br>');
         }
 
     };
