@@ -61,7 +61,7 @@ class Answer(models.Model):
             return 0
         answers = [(-1*answer.score(), answer.datetime, answer) for answer in self.for_q.answers.all()]
         score = self.score()
-        if sorted(answers)[0][2] == self:
+        if score > 0 and sorted(answers)[0][2] == self:
             score += 25
 
         return score
