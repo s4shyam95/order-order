@@ -73,7 +73,7 @@ def ws_receive(message):
                 message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Question not locked yet.'})})
             else:
                 answers = [{'player':answer.by.name, 'answer':answer.ans, 'score':answer.total_score()} for answer in question.answers.all()]
-                Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'show_answer', 'answers': json.dumps(answers), 'correct_answer': question.correct_answer})})
+                Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'show_answer', 'answers': answers, 'correct_answer': question.correct_answer})})
 
         if data['type'] == 'show_scores':
             scores_lis = [(player.total(), player.handle) for player in User.objects.all()]
