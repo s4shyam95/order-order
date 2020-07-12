@@ -52,13 +52,24 @@ def ws_receive(message):
                 message.reply_channel.send({'text': json.dumps({'type': 'answer_response'})})
 
         if data['type'] == 'unlock_question':
+            question = Question.objects.get(id=data['question_id'])
+            question.hidden = False
+            question.save()
             Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'unlock_question', 'question_id': data['question_id']})})
+
+        if data['type'] == 'lock_question':
+            question = Question.objects.get(id=data['question_id'])
+            question.closed = True
+            question.save()
 
         if data['type'] == 'show_answers':
             answers = None
             question = Question.objects.get(id=data['question_id'])
-            answers = [{'player':answer.by.handle, 'answer':answer.ans, 'score':answer.score()} for answer in question.answers]
-            Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'show_answer', 'answers': json.dumps(answers), 'correct_answer': question.correct_answer})})
+            if question.closed:
+                message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Answer not locked yet.'})})
+            else:
+                answers = [{'player':answer.by.handle, 'answer':answer.ans, 'score':answer.score()} for answer in question.answers]
+                Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'show_answer', 'answers': json.dumps(answers), 'correct_answer': question.correct_answer})})
 
         if data['type'] == 'show_scores':
             scores_lis = [(player.total(), player.handle) for player in User.objects.all()]

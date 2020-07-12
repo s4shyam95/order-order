@@ -82,6 +82,34 @@ $(function() {
         }
         return false;
     });
+    $(".unhide").click(function(){
+            var message = {
+                type: 'unlock_question',
+                question: $(this).parent().attr('question_id'),
+            }
+            chatsock.send(JSON.stringify(message));
+    });
+    $(".lock").click(function(){
+            var message = {
+                type: 'lock_question',
+                question: $(this).parent().attr('question_id'),
+            }
+            chatsock.send(JSON.stringify(message));
+    });
+    $(".show").click(function(){
+            var message = {
+                type: 'show_answers',
+                question: $(this).parent().attr('question_id'),
+            }
+            chatsock.send(JSON.stringify(message));
+    });
+    $(".score_show").click(function(){
+            var message = {
+                type: 'show_scores',
+                question: $(this).parent().attr('question_id'),
+            }
+            chatsock.send(JSON.stringify(message));
+    });
 	function heartbeat() {
 		var message = {
 			type: 'beat',
