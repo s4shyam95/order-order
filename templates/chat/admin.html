@@ -12,7 +12,7 @@
       {% for question in questions %}
         <div id="question_container{{question.id}}">
         <h3> Question : {{question.id}} </h3>
-        <form class="unhide" question_id="{{question.id}}">
+        <form question_id="{{question.id}}">
             <button class="unhide" type="button">Unhide Question</button>
             <button class="lock" type="button">Lock Question</button>
             <button class="show" type="button">Show Answer</button>
