@@ -13,7 +13,11 @@ def ws_connect(message):
     # form /chat/{label}/, and finds a Room if the message path is applicable,
     # and if the Room exists. Otherwise, bails (meaning this is a some othersort
     # of websocket). So, this is effectively a version of _get_object_or_404.
-    Group('game', channel_layer=message.channel_layer).add(message.reply_channel)
+    prefix = message['path'].strip('/')
+    if prefix == 'conduct':
+        Group('admin', channel_layer=message.channel_layer).add(message.reply_channel)
+    else:
+        Group('game', channel_layer=message.channel_layer).add(message.reply_channel)
     message.reply_channel.send({'text': json.dumps({'ping' : 'pong'})})
 
 
@@ -48,7 +52,7 @@ def ws_receive(message):
             else:
                 answer = Answer(by=author, for_q=question, ans=data['answer'])
                 answer.save()
-                Group('admin', channel_layer=message.channel_layer).send({'text': json.dumps({'question':answer.question.id, 'by':answer.by.name, 'ans': answer.ans, 'score': answer.score()})})
+                Group('admin', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'answer_admin', 'question':answer.for_q.id, 'by':answer.by.name, 'ans': answer.ans})})
                 message.reply_channel.send({'text': json.dumps({'type': 'answer_response'})})
 
         if data['type'] == 'unlock_question':
