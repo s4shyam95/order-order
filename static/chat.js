@@ -106,7 +106,6 @@ $(function() {
     $(".score_show").click(function(){
             var message = {
                 type: 'show_scores',
-                question: $(this).parent().attr('question_id'),
             }
             chatsock.send(JSON.stringify(message));
     });

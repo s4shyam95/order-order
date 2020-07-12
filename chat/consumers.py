@@ -52,19 +52,19 @@ def ws_receive(message):
                 message.reply_channel.send({'text': json.dumps({'type': 'answer_response'})})
 
         if data['type'] == 'unlock_question':
-            question = Question.objects.get(id=data['question_id'])
+            question = Question.objects.get(id=data['question'])
             question.hidden = False
             question.save()
-            Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'unlock_question', 'question_id': data['question_id']})})
+            Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'unlock_question', 'question_id': data['question']})})
 
         if data['type'] == 'lock_question':
-            question = Question.objects.get(id=data['question_id'])
+            question = Question.objects.get(id=data['question'])
             question.closed = True
             question.save()
 
         if data['type'] == 'show_answers':
             answers = None
-            question = Question.objects.get(id=data['question_id'])
+            question = Question.objects.get(id=data['question'])
             if question.closed:
                 message.reply_channel.send({'text': json.dumps({'type': 'alert', 'message': 'Answer not locked yet.'})})
             else:
