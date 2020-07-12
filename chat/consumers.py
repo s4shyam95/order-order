@@ -76,7 +76,7 @@ def ws_receive(message):
                 Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'show_answer', 'answers': answers, 'correct_answer': question.correct_answer})})
 
         if data['type'] == 'show_scores':
-            scores_lis = [(player.total(), player.handle) for player in User.objects.all()]
+            scores_lis = [(player.total(), player.name) for player in User.objects.all()]
             scores_lis.sort()
             scores_lis.reverse()
             scores = [{'score': score[0], 'player': score[1]} for score in scores_lis]
