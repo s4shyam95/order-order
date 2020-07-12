@@ -19,6 +19,9 @@ $(function() {
     		}, 1000);
             $('#q'+data.question_id+'_answer').pincodeInput().data('plugin_pincodeInput').focus();
         }
+        if (data.type == 'lock_question'){
+            $('#question_container'+data.question_id).hide();
+        }
         if (data.type == 'show_answer'){
 			$('#player_answers_body').empty();
 			// populate answers

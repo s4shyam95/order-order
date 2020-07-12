@@ -65,6 +65,7 @@ def ws_receive(message):
             question = Question.objects.get(id=data['question'])
             question.closed = True
             question.save()
+            Group('game', channel_layer=message.channel_layer).send({'text': json.dumps({'type': 'lock_question', 'question_id': data['question']})})
 
         if data['type'] == 'show_answers':
             answers = None
