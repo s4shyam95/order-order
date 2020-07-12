@@ -14,7 +14,9 @@
   </p>
   <div id="questions">
       {% for question in questions %}
-        {% if ((question.hidden) or (question.closed)) %}
+        {% if question.hidden %}
+          <div id="question_container{{question.id}}" class="hidden_question">
+        {% elif question.locked %}
           <div id="question_container{{question.id}}" class="hidden_question">
         {% else %}
           <div id="question_container{{question.id}}">
